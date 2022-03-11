@@ -121,6 +121,17 @@ def validate_dining_suggestion(location, cuisine, time, date, numberOfPeople, em
         hour, minute = time.split(':')
         hour = parse_int(hour)
         minute = parse_int(minute)
+        
+        HOUR        = datetime.datetime.now().hour
+        MINUTE      = datetime.datetime.now().minute
+        SECONDS     = datetime.datetime.now().second
+        
+        print(HOUR, MINUTE, SECONDS)
+        
+        if datetime.datetime.strptime(date, '%Y-%m-%d').date() == datetime.date.today():
+            if hour <= HOUR and minute <= MINUTE:
+                return build_validation_result(False, 'Time', 'You are trying to book for a past-time. Please check, Our business hours are from 10 AM. to 11 PM. Can you specify a time during this range?')
+            
         if math.isnan(hour) or math.isnan(minute):
             # Not a valid time; use a prompt defined on the build-time model.
             return build_validation_result(False, 'Time', None)
